@@ -24,6 +24,9 @@ dependencies:
   # --- Icônes & UI ---
   cupertino_icons: ^1.0.6
 
+  #-- import lotties
+  lottie: ^3.1.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -40,3 +43,4 @@ flutter:
   assets:
     - .env
     - assets/img/
+    - assets/lottie/
