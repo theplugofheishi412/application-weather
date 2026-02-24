@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'dart:async';
 import '../../data/models/weather_model.dart';
 import '../../data/repositories/weather_repository.dart';
@@ -35,8 +36,6 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
   ];
 
   // --- Animations ---
-  late AnimationController _weatherIconController;
-  late Animation<double> _weatherIconAnimation;
   late AnimationController _fadeController;
   late Animation<double> _fadeAnimation;
   late AnimationController _shimmerController;
@@ -44,15 +43,6 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-
-    _weatherIconController = AnimationController(
-      duration: const Duration(seconds: 2),
-      vsync: this,
-    )..repeat(reverse: true);
-
-    _weatherIconAnimation = Tween<double>(begin: -10, end: 10).animate(
-      CurvedAnimation(parent: _weatherIconController, curve: Curves.easeInOut),
-    );
 
     _fadeController = AnimationController(
       vsync: this,
@@ -140,7 +130,6 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
   @override
   void dispose() {
     _messageTimer?.cancel();
-    _weatherIconController.dispose();
     _fadeController.dispose();
     _shimmerController.dispose();
     super.dispose();
@@ -175,36 +164,16 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
         children: [
           const SizedBox(height: 40),
 
-          // --- Icône météo animée ---
-          AnimatedBuilder(
-            animation: _weatherIconAnimation,
-            builder: (context, child) {
-              return Transform.translate(
-                offset: Offset(0, _weatherIconAnimation.value),
-                child: child,
-              );
-            },
-            child: Container(
-              width: 160,
-              height: 160,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: const RadialGradient(
-                  colors: [Color(0xFF56CCF2), Color(0xFF2F80ED)],
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFF2F80ED).withOpacity(0.5),
-                    blurRadius: 40,
-                    spreadRadius: 5,
-                  ),
-                ],
-              ),
-              child: const Icon(
-                Icons.wb_sunny_rounded,
-                size: 80,
-                color: Colors.white,
-              ),
+          // --- Animation Lottie  ---
+          SizedBox(
+            width: 200,
+            height: 200,
+            child: Lottie.asset(
+              _isFinished
+                  ? 'assets/lottie/Succes.json'
+                  : 'assets/lottie/Foggy.json',
+              fit: BoxFit.contain,
+              repeat: !_isFinished,
             ),
           ),
 
@@ -213,7 +182,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
           // --- Titre ---
           Text(
             _isFinished
-                ? "Données validees"
+                ? "Données validées"
                 : "Chargement : ${ApiConstants.cities[_currentCityIndex]['name']}…",
             style: TextStyle(
               fontSize: 18,
@@ -420,6 +389,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
     );
   }
 
+  // --- Widget erreur avec Lottie ---
   Widget _buildErrorWidget() {
     return Center(
       child: Padding(
@@ -427,7 +397,12 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.wifi_off_rounded, size: 80, color: Colors.redAccent),
+            Lottie.asset(
+              'assets/lottie/Error 404.json',
+              width: 180,
+              height: 180,
+              repeat: true,
+            ),
             const SizedBox(height: 20),
             const Text(
               "Oups ! Une erreur est survenue",

@@ -26,7 +26,7 @@ class WeatherRepository {
     try {
       return await _apiService.getWeatherByCoords(lat: lat, lon: lon);
     } catch (e) {
-      throw Exception("Impossible de récupérer la météo de cette ville : $e");
+      throw Exception("Impossible de récupérer la météo des differentes ville : $e");
     }
   }
 }
