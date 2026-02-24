@@ -15,6 +15,8 @@ dependencies:
   # --- HTTP  ---
   dio: ^5.4.0
   json_annotation: ^4.8.1
+  # ---- variables --
+  flutter_dotenv: ^5.1.0
 
   # --- Maps ---
   flutter_map: ^6.1.0
@@ -36,4 +38,5 @@ flutter:
   uses-material-design: true
 
   assets:
+    - .env
     - assets/img/

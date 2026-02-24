@@ -9,8 +9,8 @@ class WeatherApiService {
     _dio = Dio(
       BaseOptions(
         baseUrl: ApiConstants.baseUrl,
-        connectTimeout: const Duration(seconds: 1),
-        receiveTimeout: const Duration(seconds: 1),
+        connectTimeout: const Duration(seconds: 10),
+        receiveTimeout: const Duration(seconds: 10),
         queryParameters: {
           'appid': ApiConstants.apiKey,
           'units': ApiConstants.units,

@@ -1,17 +1,19 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class ApiConstants {
   // --- Base URL OpenWeatherMap ---
   static const String baseUrl = 'https://api.openweathermap.org/data/2.5';
 
   // --- cle API OpenWeatherMap ---
   //cle API
+  static String get apiKey => dotenv.env['OPENWEATHER_API_KEY'] ?? '';
 
-  static const String apiKey = '40cd71cb36d24d75a0bbd2350f656e54';
 
   // --- Paramètres par défaut ---
   static const String units = 'metric';
   static const String lang = 'fr';
 
-  // --- Les 5 villes ---
+  // --- Les  villes ---
   static const List<Map<String, dynamic>> cities = [
     {
       'name': 'Dakar',
@@ -43,5 +45,11 @@ class ApiConstants {
       'lat': 17.9970,
       'lon': -76.7936,
     },
+    {
+      'name': 'Congo',
+      'contry':'Brazzaville',
+      'lat':-4.2677,
+      'lon':15.291,
+    }
   ];
 }
