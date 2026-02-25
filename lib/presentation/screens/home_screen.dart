@@ -9,7 +9,12 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appState = MyApp.of(context);
-    final isDark = appState?.isDark ?? false;
+    // Theme.of(context) est un InheritedWidget — Flutter rebuild automatiquement
+  // ce widget dès que le thème change dans MaterialApp.
+  //
+  // On NE PAS utiliser appState?.isDark car c'est un simple getter Dart,
+  // pas lié au système de rebuild Flutter ,la valeur ne se met pas à jour.
+    final IsDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -24,13 +29,13 @@ class HomeScreen extends StatelessWidget {
               icon: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 300),
                 child: Icon(
-                  isDark ? Icons.wb_sunny_rounded : Icons.nightlight_round,
-                  key: ValueKey(isDark),
+                  IsDark ? Icons.wb_sunny_rounded : Icons.nightlight_round,
+                  key: ValueKey(IsDark),
                   color: Colors.white,
                   size: 28,
                 ),
               ),
-              tooltip: isDark ? 'Mode clair' : 'Mode sombre',
+              tooltip: IsDark ? 'Mode clair' : 'Mode sombre',
             ),
           ),
         ],
@@ -45,7 +50,7 @@ class HomeScreen extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: isDark
+                  colors: IsDark
                       ? const [Color(0xFF0D1B2A), Color(0xFF1A2E4A), Color(0xFF0D1B2A)]
                       : const [Color(0xFF4FC3F7), Color(0xFF2F80ED), Color(0xFF1565C0)],
                   stops: const [0.0, 0.5, 1.0],
@@ -54,7 +59,7 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
 
-          // ☁️ Nuages décoratifs en fond (cercles flous)
+          //  Nuages décoratifs en fond (cercles flous)
           Positioned(
             top: -60,
             left: -80,
@@ -77,7 +82,7 @@ class HomeScreen extends StatelessWidget {
           ),
 
           // Overlay sombre en mode dark
-          if (isDark)
+          if (IsDark)
             Positioned.fill(
               child: Container(color: Colors.black.withOpacity(0.3)),
             ),
