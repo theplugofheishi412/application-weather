@@ -1,8 +1,12 @@
 # weather_application
 
-Examen flutter
+Examen flutter 
+etudiants de la classe G2 GL3:
+OBIANG Stackys Jalan
+Merveille Lucie ONGOUNDOU AMBONDJO
+Cyrille Dimitri MBOUROU NDIAYE
 
-## Getting Started
+# Getting Started
 
 This project is a starting point for a Flutter application.
 
